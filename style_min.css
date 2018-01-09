@@ -1,0 +1,88 @@
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: white;
+	vertical-align: middle;
+	padding: 0;
+}
+h1 {
+	font-size: 26px;
+	font-weight: bold;
+	margin: 2px auto 10px auto;
+	display: block;
+	width: 300px;
+	float: left;
+}
+h1 a {
+	color: #006699;
+}
+a:hover, h1 a:hover, #kontakt a:hover{
+	color: red;
+}
+h2 {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 2px auto;
+}
+a {
+	font-weight: bold;
+	color: white;
+	text-decoration: none;
+}
+#box {
+	position: absolute;
+	/*border: 1px solid black;*/
+	background-image: url(tlo.png);
+	background-attachment: center;
+	background-position:center; 
+	background-repeat: no-repeat;
+	width: 646px;
+	height: 450px;
+    margin-left:-363px;
+    margin-top:-225px;
+	margin-bottom:-45px;
+    left: 50%;
+    top: 50%;
+	padding: 0 40px;
+}
+#info {
+	float: left;
+	width: 320px;
+	clear: left;
+}
+#login {
+	float: right;
+	width: 300px;
+}
+#kontakt {
+	float: right;
+	margin: 20px 0 0 0
+}
+#kontakt a {
+	color: #006699;
+	padding: 4px 0;
+}
+p {
+	margin: 10px auto;
+	text-align: justify;
+}
+form, table {
+	width: 300px;
+	font-size: 12px;
+}
+td {
+	min-width: 120px;
+}
+td.error {
+	color: red;
+}
+ul {
+	font-size: 14px;
+	font-weight: bold;
+}
+li {
+	margin: 10px auto;
+}
+input {
+	margin: 0 auto;
+}
