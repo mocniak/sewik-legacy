@@ -280,9 +280,7 @@ echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
 $time = microtime(true);
 
 echo '<h3>4. Uczestnicy zdarzeń</h3>
-
-		<h3>Struktura ofiar</h3>
-		';
+<h3>Struktura ofiar</h3>';
 
 for ($i = 0; $i < $il_pojazdow; $i++) {
     $kodPojazdu = mysql_result($lista_pojazdow, $i, 0);
@@ -313,43 +311,50 @@ LEFT JOIN stuc ON stuc.kod = uczestnicy.STUC_KOD;";
     $time = microtime(true);
 }
 
-//
-//    echo '<h3>Piesi</h3>';
-//
-//    $query = "SELECT stuc.opis AS opis, wynik as ilosc FROM (
-//			SELECT stuc_kod, count(stuc_kod) AS wynik 
-//			FROM uczestnicy_temp WHERE CHAR_LENGTH(stuc_kod) > 0 AND ((zspo_id = '') OR (zspo_id IS NULL)) GROUP BY stuc_kod) as uczestnicy
-//			
-//			INNER JOIN 
-//			
-//			stuc
-//			
-//			on stuc.kod = uczestnicy.stuc_kod
-//			
-//			ORDER BY ilosc DESC";
-//
-//    $result = mysql_query($query) or die(mysql_error());
-//    if (mysql_num_rows($result) > 0) disp_table($result);
-//    else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
-//
-//
-//    echo '<h3>Płeć</h3>';
-//
-//    $query = "SELECT uczestnicy_temp.plec, count(uczestnicy_temp.plec) as ilosc FROM uczestnicy_temp GROUP BY uczestnicy_temp.plec ORDER BY ilosc DESC";
-//    $result = mysql_query($query);
-//    disp_table($result);
-//    echo '<p class="text-align: center">K - kobieta, M - mężczyzna, N - nieznany</p>';
-//    echo '<h3>Wiek</h3>';
-//
-//    $query = "SELECT IFNULL(ROUND((2008 - YEAR(rowerzysci.data_ur)), -1), 'brak') as wiek_do, count(rowerzysci.id) as ilosc FROM 
-//
-//			(SELECT id, zszd_id, zspo_id, data_ur FROM uczestnicy_temp WHERE data_ur!='0000-00-00') AS rowerzysci 
-//
-//			GROUP BY ROUND((2008 - YEAR(rowerzysci.data_ur)), -1) ORDER BY wiek_do";
-//
-//
-//    $result = mysql_query($query) or die(mysql_error());
-//    disp_table($result);
+
+echo '<h3>Piesi</h3>';
+
+$query = "SELECT stuc.opis AS opis, wynik AS ilosc FROM (
+			SELECT stuc_kod, count(stuc_kod) AS wynik 
+			FROM uczestnicy WHERE CHAR_LENGTH(stuc_kod) > 0 AND ((zspo_id = '') OR (zspo_id IS NULL)) GROUP BY stuc_kod) AS uczestnicy
+			
+			INNER JOIN 
+			
+			stuc
+			
+			ON stuc.kod = uczestnicy.stuc_kod
+			
+			ORDER BY ilosc DESC";
+
+$result = mysql_query($query) or die(mysql_error());
+
+if (mysql_num_rows($result) > 0) disp_table($result);
+else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+echo '<h3>Płeć</h3>';
+
+$query = "SELECT uczestnicy.plec, count(uczestnicy.plec) AS ilosc FROM uczestnicy GROUP BY uczestnicy.plec ORDER BY ilosc DESC";
+$result = mysql_query($query);
+disp_table($result);
+echo '<p class="text-align: center">K - kobieta, M - mężczyzna, N - nieznany</p>';
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+
+
+echo '<h3>Wiek</h3>';
+
+$query = "SELECT (FLOOR((YEAR(DATA_ZDARZ) - YEAR(DATA_UR) - (DATE_FORMAT(DATA_ZDARZ, '%m%d') < DATE_FORMAT(DATA_UR, '%m%d')))/10))*10 AS dekada_zycia, COUNT(*) AS uczestnicy FROM (SELECT ID, ZSZD_ID, DATA_UR FROM uczestnicy WHERE DATA_UR != '0000-00-00') AS u
+LEFT JOIN (SELECT id, DATA_ZDARZ FROM zdarzenie) AS z ON z.ID = u.zszd_id GROUP BY dekada_zycia ORDER BY dekada_zycia;";
+
+
+$result = mysql_query($query) or die(mysql_error());
+disp_table($result);
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
 //
 //    for ($i = 0; $i < $il_pojazdow; $i++) {
 //        echo '<h3>' . mysql_result($lista_pojazdow, $i, 1) . '</h3>';
