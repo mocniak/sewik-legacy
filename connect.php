@@ -1,3 +1,2 @@
 <?php
-$link = mysql_connect("localhost", "root", "");
-?>
+$link = mysqli_connect("localhost", "root", "dupa.8");

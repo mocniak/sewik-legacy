@@ -1,20 +1,18 @@
 <div class="box">
     <h2>O statystykach</h2>
-    <p>Dane na stronie zostały opracowane na podstawie zrzutu z policyjnego Systemu Ewidencji Wypadków i Kolizji z okresu 2007-2012 udostępnionego przez Komendę Główną Policji dla sieci Miasta dla Rowerów.</p>
-    <p>Interpretując zestawienia należy wziąć pod uwagę zdarzające się błędy w Systemie (co będziemy się starali w miarę możliwości poprawiać) oraz fakt, że znaczna część zdarzeń z udziałem rowerzystów nie jest zgłaszana.</p>
+    <p>Dane na stronie zostały opracowane na podstawie zrzutu z policyjnego Systemu Ewidencji Wypadków i Kolizji z okresu 2007-2016 udostępnionego przez Komendę Główną Policji dla sieci Miasta dla Rowerów.</p>
+    <p>Interpretując zestawienia należy wziąć pod uwagę zdarzające się błędy w Systemie oraz fakt, że część zdarzeń nie jest zgłaszana.</p>
     <p>W przypadku znalezienia zdarzenia w którym brałeś/aś udział prosimy o <a href="mailto:karol@mocniak.pl">informację</a> o poprawności/błędach w statystykach.</p>
     Strona powstała dzięki współpracy z:
     <ul>
         <li><a href="http://miastadlarowerow.pl">Miasta dla rowerów</a></li>
         <li><a href="http://www.rowerowy.bialystok.pl">Rowerowy Białystok</a></li>
         <li><a href="http://www.fundacjafenomen.pl/">Fenomen - Fundacja Normalne Miasto</a></li>
-        <li><a href="http://www.ewawolak.pl/">Ewa Wolak - Poseł na Sejm</a></li>
     </ul>
-    <!--  <p>Wykresy zostały wygenerowane za pomocą biblioteki <a href="http://www.ebrueggeman.com/phpgraphlib/">PHPGraphLib v2.30</a>.</p>-->
 </div>
 <div class="box">
     <h2>Uwaga!</h2>
-    <p>Wyszukiwarka jest w fazie testów. Generacja statystyk może potrwać nawet do dwóch minut.</p>
+    <p>Wyszukiwarka jest w fazie testów</p>
     <h2>Opracowania i analizy</h2>
     <p>Niektóre z materiałów, które powstały na podstawie udostępnionych przez nas danych.</p>
     <ul>
