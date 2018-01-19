@@ -218,7 +218,7 @@ $query = "
 
 		ORDER BY pojazdy DESC";
 
-$result = mysql_query($query) or die(mysql_error());;
+$result = mysql_query($query) or die(mysql_error());
 disp_table($result);
 
 echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
@@ -346,8 +346,8 @@ $time = microtime(true);
 
 echo '<h3>Wiek</h3>';
 
-$query = "SELECT (FLOOR((YEAR(DATA_ZDARZ) - YEAR(DATA_UR) - (DATE_FORMAT(DATA_ZDARZ, '%m%d') < DATE_FORMAT(DATA_UR, '%m%d')))/10))*10 AS dekada_zycia, COUNT(*) AS uczestnicy FROM (SELECT ID, ZSZD_ID, DATA_UR FROM uczestnicy WHERE DATA_UR != '0000-00-00') AS u
-LEFT JOIN (SELECT id, DATA_ZDARZ FROM zdarzenie) AS z ON z.ID = u.zszd_id GROUP BY dekada_zycia ORDER BY dekada_zycia;";
+$query = "SELECT (FLOOR((YEAR(DATA_ZDARZ) - YEAR(DATA_UR) - (DATE_FORMAT(DATA_ZDARZ, '%m%d') < DATE_FORMAT(DATA_UR, '%m%d')))/10))*10 AS wiek_od, COUNT(*) AS uczestnicy FROM (SELECT ID, ZSZD_ID, DATA_UR FROM uczestnicy WHERE DATA_UR != '0000-00-00') AS u
+LEFT JOIN (SELECT id, DATA_ZDARZ FROM zdarzenie) AS z ON z.ID = u.zszd_id GROUP BY wiek_od ORDER BY wiek_od;";
 
 
 $result = mysql_query($query) or die(mysql_error());
@@ -355,203 +355,170 @@ disp_table($result);
 
 echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
 $time = microtime(true);
-//
-//    for ($i = 0; $i < $il_pojazdow; $i++) {
-//        echo '<h3>' . mysql_result($lista_pojazdow, $i, 1) . '</h3>';
-//        $query = "SELECT IFNULL(ROUND((2008 - YEAR(rowerzysci.data_ur)), -1), 'brak') as wiek_do, count(rowerzysci.id) as ilosc 
-//
-//			FROM 
-//
-//			(SELECT id, zszd_id, zspo_id, data_ur FROM uczestnicy_temp WHERE data_ur!='0000-00-00') 
-//
-//			AS rowerzysci 
-//
-//			INNER JOIN 
-//
-//			pojazdy_temp
-//
-//			ON pojazdy_temp.id = rowerzysci.zspo_id
-//
-//			WHERE rodzaj_pojazdu='" . mysql_result($lista_pojazdow, $i, 0) . "'
-//
-//			GROUP BY ROUND((2008 - YEAR(rowerzysci.data_ur)), -1) ORDER BY wiek_do";
-//        //echo '<p>'.$query.'</p>';
-//        $result = mysql_query($query) or die(mysql_error());
-//        if (mysql_num_rows($result) > 0) disp_table($result);
-//        else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
-//    }
-//
-//    echo '<h3>Piesi</h3>';
-//
-//    $query = "SELECT IFNULL(ROUND((2008 - YEAR(rowerzysci.data_ur)), -1), 'brak') as wiek_do, count(rowerzysci.id) as ilosc FROM 
-//
-//			(SELECT id, zszd_id, zspo_id, data_ur FROM uczestnicy_temp WHERE data_ur!='0000-00-00' AND ssru_kod = 'I') AS rowerzysci 
-//
-//			GROUP BY ROUND((2008 - YEAR(rowerzysci.data_ur)), -1) ORDER BY wiek_do";
-//    $result = mysql_query($query) or die(mysql_error());
-//    if (mysql_num_rows($result) > 0) disp_table($result);
-//    else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
-//    echo '
-//		<h3>Alkohol</h3>
-//		';
-//
-//
-//    $query = "SELECT IFNULL(susw.opis, 'brak') as wplyw, count(rowerzysci.susw_kod) as ilosc FROM 
-//
-//			(SELECT id, zszd_id, zspo_id, IFNULL(susw_kod, 'brak') as susw_kod FROM uczestnicy_temp) AS rowerzysci 
-//			
-//			
-//			LEFT JOIN
-//
-//			susw
-//
-//			ON susw.kod = rowerzysci.susw_kod
-//
-//			GROUP BY rowerzysci.susw_kod ORDER BY susw.kod";
-//
-//    $result = mysql_query($query) or die(mysql_error());
-//    disp_table($result);
-//    for ($i = 0; $i < $il_pojazdow; $i++) {
-//        echo '<h3>' . mysql_result($lista_pojazdow, $i, 1) . '</h3>';
-//        $query = "SELECT IFNULL(susw.opis, 'brak') as wplyw, count(rowerzysci.susw_kod) as ilosc FROM 
-//
-//			(SELECT id, zszd_id, zspo_id, IFNULL(susw_kod, 'brak') as susw_kod FROM uczestnicy_temp) AS rowerzysci 
-//
-//			INNER JOIN 
-//
-//			pojazdy_temp
-//
-//			ON rowerzysci.zspo_id = pojazdy_temp.id
-//
-//			LEFT JOIN
-//
-//			susw
-//
-//			ON susw.kod = rowerzysci.susw_kod
-//
-//			WHERE rodzaj_pojazdu='" . mysql_result($lista_pojazdow, $i, 0) . "'
-//
-//			GROUP BY rowerzysci.susw_kod ORDER BY susw.kod";
-//        //echo '<p>'.$query.'</p>';
-//        $result = mysql_query($query) or die(mysql_error());
-//        if (mysql_num_rows($result) > 0) disp_table($result);
-//        else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
-//    }
-//
-//    /*echo '
-//    <h3>Piesi</h3>
-//    ';
-//
-//
-//        $query = "SELECT IFNULL(susw.opis, 'brak') as wplyw, count(rowerzysci.susw_kod) as ilosc FROM 
-//
-//        (SELECT id, zszd_id, zspo_id, IFNULL(susw_kod, 'brak') as susw_kod FROM uczestnicy_temp WHERE ssru_kod='I') AS rowerzysci 
-//        
-//        
-//        LEFT JOIN
-//
-//        susw
-//
-//        ON susw.kod = rowerzysci.susw_kod
-//
-//        GROUP BY rowerzysci.susw_kod ORDER BY susw.kod";
-//
-//    $result = mysql_query($query) or die(mysql_error());
-//    disp_table($result);
-//*/
-//
-//    echo '<h3>5. Niebezpieczne ulice i skrzyżowania</h3>';
-//
-//    echo '<h3>Ulice</h3>';
-//
-//    $result = mysql_query("SELECT ulica_adres as ulica, COUNT(ulica_adres) zdarzenia FROM 
-//
-//
-//		(SELECT ulica_adres FROM zdarzenie WHERE ulica_adres IS NOT NULL
-//
-//		UNION ALL
-//
-//		SELECT ulica_skrzyz as ulica_adres FROM zdarzenie WHERE CHAR_LENGTH(ulica_skrzyz) > 0) AS zdarzenie
-//
-//		GROUP BY ulica_adres ORDER BY zdarzenia DESC LIMIT 50") or die(mysql_error());
-//    disp_table($result);
-//
-//    echo '<p>Jeżeli zdarzenie miało miejsce na skrzyżowaniu jest ono przypisywane do obu ulic.</p>
-//
-//		<h3>Skrzyżowania</h3>';
-//
-//
-//    $result = mysql_query("SELECT CONCAT_WS(' / ',ulica1, ulica2) as skrzyzowanie, count(*) AS ilosc FROM 
-//		(SELECT 
-//		case when ULICA_ADRES < ULICA_SKRZYZ then ULICA_ADRES else ULICA_SKRZYZ end ulica1,
-//		case when ULICA_ADRES < ULICA_SKRZYZ then ULICA_SKRZYZ else ULICA_ADRES end ulica2
-//		FROM zdarzenie WHERE ulica_skrzyz != '' 
-//		) as tablica
-//
-//		GROUP BY ulica1, ulica2
-//		ORDER BY ilosc DESC LIMIT 50
-//		");
-//    disp_table($result);
-//
-//    echo '<h2>Lista zdarzeń</h2>
-//		
-//		<p>W kolejności wg. miejsca zdarzenia.</p>';
-//
-//    $query = "SELECT zdarzenia.id, zdarzenia.miejscowosc, zdarzenia.ulica, chmz.opis as miejsce, szrd.opis as rodzaj_zdarzenia, zdarzenia.data_zdarz FROM 
-//		
-//		(SELECT id, gmina, miejscowosc, CONCAT_WS(' ',ulica_adres, numer_domu, ulica_skrzyz) as ulica, chmz_kod, szrd_kod, data_zdarz FROM zdarzenie) AS zdarzenia 
-//
-//		LEFT JOIN
-//
-//		chmz
-//
-//		ON chmz.kod = zdarzenia.chmz_kod
-//
-//		LEFT JOIN 
-//
-//		szrd
-//
-//		ON szrd.kod = zdarzenia.szrd_kod
-//
-//		ORDER BY zdarzenia.ulica LIMIT 50";
-//
-//    /* jeżeli raport pieszy (z kolumną "pojazd"), to kod poniżej: */
-//
-//    /*
-//    $query = "SELECT zdarzenia.id, zdarzenia.miejscowosc, zdarzenia.ulica, chmz.opis as miejsce, skar.opis as pojazd, zdarzenia.data_zdarz FROM 
-//    
-//    (SELECT id, gmina, miejscowosc, CONCAT_WS(' ',ulica_adres, numer_domu, ulica_skrzyz) as ulica, chmz_kod, data_zdarz FROM zdarzenie) AS zdarzenia 
-//
-//    LEFT JOIN
-//
-//    chmz
-//
-//    ON chmz.kod = zdarzenia.chmz_kod
-//
-//    LEFT JOIN
-//
-//    (SELECT rodzaj_pojazdu, zszd_id FROM pojazdy_temp) as pojazdy
-//
-//    ON zdarzenia.id = pojazdy.zszd_id
-//
-//    LEFT JOIN
-//
-//    skar
-//    
-//    ON pojazdy.rodzaj_pojazdu = skar.kod
-//
-//    ORDER BY zdarzenia.ulica";*/
-//
-//    $result = mysql_query($query);
-//    $razem = mysql_num_rows($result);
-//    echo '<p>Razem: ' . $razem . '</p>';
-//
-//    disp_zdarzenia($result);
-//
-//    //echo '<p>Lista pierwszych 50 zdarzeń. Nie znalazłeś poszukiwanego? Zawęź zakres wyszukiwania.</p>';
-//
-//    $baza_danych = mysql_select_db('sewik_sewik') or die(mysql_error());
-//} //koniec if l_zdarzeń > 12000
-//
+
+for ($i = 0; $i < $il_pojazdow; $i++) {
+    echo '<h3>' . mysql_result($lista_pojazdow, $i, 1) . '</h3>';
+    $rodzajPojazdu = mysql_result($lista_pojazdow, $i, 0);
+    $query = "SELECT
+  (FLOOR((YEAR(DATA_ZDARZ) - YEAR(DATA_UR) - (DATE_FORMAT(DATA_ZDARZ, '%m%d') < DATE_FORMAT(DATA_UR, '%m%d'))) / 10)) *
+  10       AS wiek_od,
+  COUNT(*) AS uczestnicy
+FROM (SELECT
+        ID,
+        ZSZD_ID,
+        ZSPO_ID,
+        DATA_UR
+      FROM uczestnicy
+      WHERE DATA_UR != '0000-00-00') AS u
+  INNER JOIN (SELECT
+                ZSZD_ID,
+                ID
+              FROM pojazdy
+              WHERE RODZAJ_POJAZDU = '$rodzajPojazdu') AS p ON p.ID = u.ZSPO_ID
+  LEFT JOIN (SELECT
+               id,
+               DATA_ZDARZ
+             FROM zdarzenie) AS z ON z.ID = u.zszd_id
+GROUP BY wiek_od
+ORDER BY wiek_od;";
+    $result = mysql_query($query) or die(mysql_error());
+    if (mysql_num_rows($result) > 0) disp_table($result);
+    else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
+    echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+    $time = microtime(true);
+}
+
+echo '<h3>Piesi</h3>';
+
+$query = "SELECT
+  (FLOOR((YEAR(DATA_ZDARZ) - YEAR(DATA_UR) - (DATE_FORMAT(DATA_ZDARZ, '%m%d') < DATE_FORMAT(DATA_UR, '%m%d'))) / 10)) *
+  10       AS wiek_od,
+  COUNT(*) AS uczestnicy
+FROM (SELECT
+        ID,
+        ZSZD_ID,
+        DATA_UR
+      FROM uczestnicy
+      WHERE DATA_UR != '0000-00-00' AND ZSPO_ID IS NULL) AS u
+  LEFT JOIN (SELECT
+               id,
+               DATA_ZDARZ
+             FROM zdarzenie) AS z ON z.ID = u.zszd_id
+GROUP BY wiek_od
+ORDER BY wiek_od;";
+
+$result = mysql_query($query) or die(mysql_error());
+
+if (mysql_num_rows($result) > 0) disp_table($result);
+else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+
+echo '<h2>Alkohol i narkotyki</h2>';
+
+echo '<h3>Wszyscy uczestnicy</h3>';
+
+$query = "SELECT IFNULL(opis,'Brak') AS substancje_psychoaktywne, uczestnicy FROM
+  (SELECT susw_kod, count(*) AS uczestnicy FROM uczestnicy GROUP BY susw_kod ORDER BY susw_kod) AS u
+   LEFT JOIN
+   susw
+   ON susw.kod = u.susw_kod";
+
+$result = mysql_query($query) or die(mysql_error());
+disp_table($result);
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+
+for ($i = 0; $i < $il_pojazdow; $i++) {
+    echo '<h3>' . mysql_result($lista_pojazdow, $i, 1) . '</h3>';
+    $rodzajPojazdu = mysql_result($lista_pojazdow, $i, 0);
+
+    $query = "SELECT IFNULL(opis,'Brak') AS dzialanie_substancji_psychoaktywnych, uczestnicy FROM
+  (SELECT susw_kod, count(*) AS uczestnicy FROM uczestnicy 
+  WHERE zspo_id IN (SELECT id FROM pojazdy WHERE rodzaj_pojazdu = '$rodzajPojazdu')
+  GROUP BY susw_kod ORDER BY susw_kod) AS u
+   LEFT JOIN
+   susw
+   ON susw.kod = u.susw_kod";
+
+    $result = mysql_query($query) or die(mysql_error());
+
+    if (mysql_num_rows($result) > 0) disp_table($result);
+    else echo '<table><tr><td>Brak ofiar w tej grupie uczestników</td></tr></table>';
+
+    echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+    $time = microtime(true);
+}
+
+echo '<h3>5. Niebezpieczne ulice i skrzyżowania</h3>';
+
+echo '<h3>Ulice</h3>';
+
+$result = mysql_query("SELECT ulica_adres AS ulica, COUNT(ulica_adres) zdarzenia FROM
+
+
+		(SELECT ulica_adres FROM zdarzenie WHERE ulica_adres IS NOT NULL
+
+		UNION ALL
+
+		SELECT ulica_skrzyz AS ulica_adres FROM zdarzenie WHERE CHAR_LENGTH(ulica_skrzyz) > 0) AS zdarzenie
+
+		GROUP BY ulica_adres ORDER BY zdarzenia DESC LIMIT 50") or die(mysql_error());
+disp_table($result);
+
+echo '<p>Jeżeli zdarzenie miało miejsce na skrzyżowaniu jest ono przypisywane do obu ulic.</p>';
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+//
+echo '<h3>Skrzyżowania</h3>';
+
+$result = mysql_query("SELECT CONCAT_WS(' / ', ulica1, ulica2) AS skrzyzowanie, count(*) AS ilosc FROM
+		(SELECT
+		CASE WHEN ULICA_ADRES < ULICA_SKRZYZ THEN ULICA_ADRES ELSE ULICA_SKRZYZ END ulica1,
+		CASE WHEN ULICA_ADRES < ULICA_SKRZYZ THEN ULICA_SKRZYZ ELSE ULICA_ADRES END ulica2
+		FROM zdarzenie WHERE ulica_skrzyz != ''
+		) AS tablica
+
+		GROUP BY ulica1, ulica2
+		ORDER BY ilosc DESC LIMIT 50
+		");
+disp_table($result);
+
+echo '<p>czas generowania raportu: ' . (microtime(true) - $time) . 's</p>';
+$time = microtime(true);
+//
+echo '<h2>Lista zdarzeń</h2>
+
+		<p>W kolejności wg. miejsca zdarzenia.</p>';
+
+$query = "SELECT zdarzenia.id, zdarzenia.miejscowosc, zdarzenia.ulica, chmz.opis AS miejsce, szrd.opis AS rodzaj_zdarzenia, zdarzenia.data_zdarz FROM
+
+		(SELECT id, gmina, miejscowosc, CONCAT_WS(' ',ulica_adres, numer_domu, ulica_skrzyz) AS ulica, chmz_kod, szrd_kod, data_zdarz FROM zdarzenie  LIMIT 50) AS zdarzenia
+
+		LEFT JOIN
+
+		chmz
+
+		ON chmz.kod = zdarzenia.chmz_kod
+
+		LEFT JOIN
+
+		szrd
+
+		ON szrd.kod = zdarzenia.szrd_kod
+
+		ORDER BY zdarzenia.ulica";
+
+
+$result = mysql_query($query);
+echo '<p>Razem: ' . mysql_num_rows($result) . '</p>';
+
+disp_zdarzenia($result);
+
+echo '<p>Lista pierwszych 50 zdarzeń. Nie znalazłeś poszukiwanego? Zawęź zakres wyszukiwania.</p>';
+
 
 echo '<p>czas generowania wszystkich raportów: ' . (microtime(true) - $totalTime) . 's</p>';
